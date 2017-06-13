@@ -51,19 +51,14 @@ void Receive::newClient() {
 	if (listener.accept(*client) == sf::Socket::Done)
 	{
 		std::unique_lock<std::mutex> lock(m_net.m_mut);
-		//	auto lock = unique_lock();
-			// Add the new client to the clients list
 		m_net.clients.push_back(client);
 		client->receive(m_packet);//receive image type from user
 		sf::Uint32 image;
 		m_packet >> image;
-		//queue::push(recPack{ image });//update board there is a new client
 		push(recPack{ image });//update board there is a new client
 		selector.add(*client);
-		//lock.release();
 		lock.unlock();
 		m_cv.notify_one();
-		//wait();
 		{
 			std::unique_lock<std::mutex> lock1(m_net.m_new);
 			m_net.m_cv.wait(lock1);

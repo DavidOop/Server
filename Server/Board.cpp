@@ -91,8 +91,8 @@ void Board::addFoodAndBombs() {
 	stopwatch += TimeClass::instance().RestartClock();
 	if (stopwatch >= 5.f) {
 		stopwatch = 0;
-		add(FOOD, FOOD_UPPER, FOOD_LOWER, FOOD_RADIUS, 10, m_numOfFood);
-		add(BOMBS, BOMBS_UPPER, BOMBS_LOWER, BOMB_RADIUS, 1, m_numOfBombs);
+		add(FOOD, FOOD_UPPER, FOOD_LOWER, FOOD_RADIUS, FOOD, m_numOfFood);
+		add(BOMBS, BOMBS_UPPER, BOMBS_LOWER, BOMB_RADIUS, BOMBS, m_numOfBombs);
 	}
 }
 //=========================================================================================================================================
@@ -109,12 +109,16 @@ void Board::precessLoop(std::queue<recPack>& temp) {
 		if (player < MAX_IMAGE)
 			addClient(*this, player);//a = std::thread(addClient, *this);			std::Ref(*this)
 		else {
+			if (find(player) == end())
+				continue;
 			m_sender.push(sendPack{ player, temp.front()._ver });
 			find(player)->second->setVertex(temp.front()._ver);
 			find(player)->second->setRadius(temp.front()._rad);
 			for (auto it = temp.front()._vec.begin(); it != temp.front()._vec.end(); ++it) {
-				(find(*it)->first >= BOMBS_LOWER) ? --m_numOfBombs : --m_numOfFood; //update number of food or bombs
-				erase(find(*it));
+				if (find(*it) != end()) {
+					(find(*it)->first >= BOMBS_LOWER) ? --m_numOfBombs : --m_numOfFood; //update number of food or bombs
+					erase(find(*it));
+				}
 			}
 		}
 		temp.pop();
