@@ -37,6 +37,7 @@ void Controller::run() {
 //=========================================================================
 int main()
 {
+	std::cout << sf::IpAddress::getLocalAddress().toString() << '\n';
 	srand(unsigned(time(NULL)));
 	Controller controller;
 	controller.run();
