@@ -25,7 +25,6 @@ Board::Board(Network& net, Receive& rec, Sender& send/*, Computer& c1*/)
 
 	add(FOOD, FOOD_UPPER, FOOD_LOWER, FOOD_RADIUS, FOOD, m_numOfFood);
 	add(BOMBS, BOMBS_UPPER, BOMBS_LOWER, BOMB_RADIUS, BOMBS, m_numOfBombs);
-	//addPlayer()
 }
 
 //=======================================================================================================================================
@@ -82,8 +81,8 @@ sf::Vector2f Board::addVertex(float radius) {
 //=============================================================================================================
 bool Board::collide(sf::Vector2f ver, float r) {
 	for (auto it = begin(); it != end(); ++it)
-		if (isIntersect(ver, (*it).second->getVertex(), r, (*it).second->getRadius())) return true;
-	return false;
+		if (isIntersect(ver, (*it).second->getVertex(), r, (*it).second->getRadius())) return false;
+	return true;
 }
 //=========================================================================================================================================
 void Board::addFoodAndBombs() {
