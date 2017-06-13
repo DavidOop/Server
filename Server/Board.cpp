@@ -90,7 +90,6 @@ void Board::addFoodAndBombs() {
 	static float stopwatch = 0;
 	stopwatch += TimeClass::instance().RestartClock();
 	if (stopwatch >= 5.f) {
-		std::cout << stopwatch << '\n';
 		stopwatch = 0;
 		add(FOOD, FOOD_UPPER, FOOD_LOWER, FOOD_RADIUS, 10, m_numOfFood);
 		add(BOMBS, BOMBS_UPPER, BOMBS_LOWER, BOMB_RADIUS, 1, m_numOfBombs);
