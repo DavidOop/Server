@@ -31,7 +31,7 @@ const float FOOD_RADIUS = 10.f;
 const float BOMB_RADIUS = 20.f;
 
 co_Uint FOOD = 200;
-co_Uint BOMBS = 50;
+co_Uint BOMBS = 20;
 
 co_Uint PLAYER_LOWER = 200;
 co_Uint PLAYER_UPPER = 300;
