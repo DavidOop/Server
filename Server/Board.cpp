@@ -25,7 +25,7 @@ Board::Board(Network& net, Receive& rec, Sender& send/*, Computer& c1*/)
 
 	add(FOOD, FOOD_UPPER, FOOD_LOWER, FOOD_RADIUS, FOOD, m_numOfFood);
 	add(BOMBS, BOMBS_UPPER, BOMBS_LOWER, BOMB_RADIUS, BOMBS, m_numOfBombs);
-
+	//addPlayer()
 }
 
 //=======================================================================================================================================
