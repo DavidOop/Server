@@ -20,7 +20,8 @@
 
 struct Network {
 	std::vector<sf::TcpSocket*> clients;  // Create a list to store the future clients
-	~Network() { auto size = clients.size(); for (size_t i = 0; i < size; ++i)delete  clients[i]; }
+	~Network() { for (auto i = clients.begin(); i != clients.end();)i = clients.erase(i); }
+	
 	std::mutex m_mut;
 	std::mutex m_new;
 	std::condition_variable m_cv;//order the receiver to wait
