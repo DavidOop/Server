@@ -59,14 +59,21 @@ sf::Uint32 Board::findId(const sf::Uint32 l, const sf::Uint32 u) {
 void Board::add(co_Uint MAX, co_Uint UPPER, co_Uint LOWER, const float RADIUS, co_Uint limit, sf::Uint32& num) {
 	if (num >= MAX)
 		return;
-
+	static int c= 0;
+	static bool a = false;
+	if (a)c = 0;
 	for (sf::Uint32 i = num; i < MAX; ++i) {
 		auto id = findId(LOWER, UPPER);
-		sf::Vector2f ver{ float(rand() % int(BOARD_SIZE.x)) ,float(rand() % int(BOARD_SIZE.y)) };
+		sf::Vector2f ver{ float(std::rand() % int(BOARD_SIZE.x)) ,float(std::rand() % int(BOARD_SIZE.y)) };
 		emplace(id, Circle{ id, ver, RADIUS });
 		++num;
 		m_sender.push(sendPack{ id, find(id)->second->getVertex() });
+		if (a) {
+		//	std::cout << c << " ";
+			c++;
+		}
 	}
+	a = true;
 	notify_one();//notify sender
 }
 //=============================================================================================================
@@ -103,6 +110,7 @@ void Board::receiveLoop(std::queue<recPack>& temp) {
 //=========================================================================================================================================
 
 void Board::precessLoop(std::queue<recPack>& temp) {
+	
 	while (!temp.empty()) {
 		auto player = temp.front()._id;
 		if (player < MAX_IMAGE)

@@ -38,6 +38,7 @@ void Receive::run() {
 	while (true) {
 		// Make the selector wait for data on any socket
 		// The listener is ready: there is a pending connection
+	//	std::cout << "wait\n";
 		if (selector.wait())
 			(selector.isReady(listener)) ? newClient() : receiveData();
 	}
@@ -72,6 +73,7 @@ void Receive::newClient() {
 //================================================================================
 void Receive::receiveData() {
 	// The listener socket is not ready, test all other sockets (the clients)
+	static int c = 0;
 	for (auto it = m_net.clients.begin(); it != m_net.clients.end();)
 	{
 
@@ -81,16 +83,21 @@ void Receive::receiveData() {
 			m_packet.clear();
 			auto status = client.receive(m_packet);
 			if (status == sf::TcpSocket::Disconnected) {
+				selector.remove(client);
 				std::unique_lock<std::mutex> lock(m_net.m_mut);
 				it = m_net.clients.erase(it);
-				continue;
+				return;
 			}
 			// The client has sent some data, we can receive it
 			else if (status == sf::Socket::Done)
 			{
 				recPack pack;
-				if (m_packet >> pack)
+				if (m_packet >> pack) {
 					push(pack);
+					static int c = 0;
+				//	std::cout << "recieve: " << c << '\n';
+					c++;
+				}
 			}
 		}
 		++it;

@@ -19,8 +19,9 @@
 //=================================================================================================================
 
 struct Network {
+public:
 	std::vector<sf::TcpSocket*> clients;  // Create a list to store the future clients
-	~Network() { for (auto i = clients.begin(); i != clients.end();)i = clients.erase(i); }
+	~Network() { for (auto i = clients.begin(); i != clients.end();) { (*i)->disconnect(); i = clients.erase(i); } }
 	
 	std::mutex m_mut;
 	std::mutex m_new;
