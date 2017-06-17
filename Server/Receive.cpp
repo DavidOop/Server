@@ -86,7 +86,6 @@ void Receive::receiveData() {
 				selector.remove(client);
 				std::unique_lock<std::mutex> lock(m_net.m_mut);
 				it = m_net.clients.erase(it);
-				return;
 			}
 			// The client has sent some data, we can receive it
 			else if (status == sf::Socket::Done)
@@ -100,6 +99,7 @@ void Receive::receiveData() {
 				}
 			}
 		}
+		if(it!= m_net.clients.end())
 		++it;
 	}
 	m_cv.notify_one();
