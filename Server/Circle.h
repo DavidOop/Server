@@ -22,13 +22,14 @@ protected:
 //================================================================================
 class Player :public Circle {
 public:
-	Player(sf::Uint32 id, sf::Uint32 im, const sf::Vector2f& ver, float r = PLAYER_RADIUS) :Circle(id, ver, r), _image(im) {}
-	Player(const Player& pl) :Player(pl._id, pl._image, pl._vertex, pl._radius) {}
+	Player(sf::Uint32 id, sf::Uint32 im, const sf::Vector2f& ver,sf::String name ,float r = PLAYER_RADIUS) :Circle(id, ver, r), _image(im) {}
+	Player(const Player& pl) :Player(pl._id, pl._image, pl._vertex, pl._name, pl._radius) {}
 	~Player() {}
 
 	sf::Uint32 getImage()const { return _image; }
 	void setImage(sf::Uint32 im) { _image = im; }
-
+	const sf::String& getName()const { return _name; }
 private:
 	sf::Uint32 _image;
+	sf::String _name;
 };

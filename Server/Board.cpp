@@ -59,7 +59,7 @@ sf::Uint32 Board::findId(const sf::Uint32 l, const sf::Uint32 u) {
 void Board::add(co_Uint MAX, co_Uint UPPER, co_Uint LOWER, const float RADIUS, co_Uint limit, sf::Uint32& num) {
 	if (num >= MAX)
 		return;
-	static int c= 0;
+	static int c = 0;
 	static bool a = false;
 	if (a)c = 0;
 	for (sf::Uint32 i = num; i < MAX; ++i) {
@@ -68,10 +68,6 @@ void Board::add(co_Uint MAX, co_Uint UPPER, co_Uint LOWER, const float RADIUS, c
 		emplace(id, Circle{ id, ver, RADIUS });
 		++num;
 		m_sender.push(sendPack{ id, find(id)->second->getVertex() });
-		if (a) {
-		//	std::cout << c << " ";
-			c++;
-		}
 	}
 	a = true;
 	notify_one();//notify sender
@@ -110,7 +106,7 @@ void Board::receiveLoop(std::queue<recPack>& temp) {
 //=========================================================================================================================================
 
 void Board::precessLoop(std::queue<recPack>& temp) {
-	
+
 	while (!temp.empty()) {
 		auto player = temp.front()._id;
 		if (player < MAX_IMAGE)
@@ -144,22 +140,23 @@ void addClient(Board& board, sf::Uint32 image) {
 	sf::Packet packet;
 	auto id = board.findId(PLAYER_LOWER, PLAYER_UPPER); //make new id
 	auto ver = board.addVertex(PLAYER_RADIUS);
-	//auto lock = board.unique_lock();
-	/*send the board*/
+	sf::String name;
+	packet >> name;
+/*send the board*/
 	for (auto it = board.begin(); it != board.end(); ++it) {
 		packet << it->second;
 	}
 
 	//add player to board
-	board.emplace(id, Player{ id, image, ver });
+	board.emplace(id, Player{ id, image, ver, name });
 
-	packet << id << ver << PLAYER_RADIUS << image;
+	packet << id << ver << PLAYER_RADIUS << image<< name;
 	if (board.net().clients[board.net().clients.size() - 1]->send(packet) != sf::TcpSocket::Done)
 		std::cout << "didnt send map\n";
 
 	//update all players the new player
 	packet.clear();
-	packet << id << board.find(id)->second->getVertex() << dynamic_cast<Player*>(board.find(id)->second.get())->getImage();
+	packet << id << board.find(id)->second->getVertex() << dynamic_cast<Player*>(board.find(id)->second.get())->getImage()<< dynamic_cast<Player*>(board.find(id)->second.get())->getName();
 	for (auto it = board.net().clients.begin(); it != board.net().clients.end(); ++it)
 		(*it)->send(packet);
 
