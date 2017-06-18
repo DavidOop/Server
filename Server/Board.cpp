@@ -8,7 +8,7 @@ sf::Packet& operator << (sf::Packet& packet, const std::unique_ptr<Circle>& c)
 
 	packet << c->getId() << c->getVertex().x << c->getVertex().y;
 	if (auto it = dynamic_cast<Player*>(c.get())) //if its a player 
-		packet << it->getRadius() << it->getImage();
+		packet << it->getRadius() << it->getImage()<<it->getName();
 	return packet;
 }
 //==================================================================================================================
@@ -134,14 +134,13 @@ void Board::precessLoop(std::queue<recPack>& temp) {
 
 //==========================================================================================
 
-void addClient(Board& board, sf::Uint32 image) {
+void Board::addClient(Board& board, sf::Uint32 image) {
 	std::unique_lock<std::mutex> lock(board.net().m_mut);
 
 	sf::Packet packet;
 	auto id = board.findId(PLAYER_LOWER, PLAYER_UPPER); //make new id
 	auto ver = board.addVertex(PLAYER_RADIUS);
-	sf::String name;
-	packet >> name;
+	sf::String name = m_receive.getName();
 /*send the board*/
 	for (auto it = board.begin(); it != board.end(); ++it) {
 		packet << it->second;
@@ -156,7 +155,7 @@ void addClient(Board& board, sf::Uint32 image) {
 
 	//update all players the new player
 	packet.clear();
-	packet << id << board.find(id)->second->getVertex() << dynamic_cast<Player*>(board.find(id)->second.get())->getImage()<< dynamic_cast<Player*>(board.find(id)->second.get())->getName();
+	packet << id << board.find(id)->second->getVertex() << dynamic_cast<Player*>(board.find(id)->second.get())->getImage()<< name;
 	for (auto it = board.net().clients.begin(); it != board.net().clients.end(); ++it)
 		(*it)->send(packet);
 

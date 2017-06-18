@@ -27,7 +27,7 @@ struct sendPack {
 const sf::Vector2f BOARD_SIZE{ 3000.f,3000.f };
 const unsigned MAX_IMAGE = 100;
 const float PLAYER_RADIUS = 60.f;
-const float FOOD_RADIUS = 10.f;
+const float FOOD_RADIUS = 22.f;
 const float BOMB_RADIUS = 50.f;
 
 co_Uint FOOD = 200;

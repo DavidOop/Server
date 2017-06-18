@@ -30,7 +30,7 @@ public:
 
 	//auto unique_lock() { std::unique_lock<std::mutex> lock(mut); return lock; }
 	void wait() { std::unique_lock<std::mutex> lock(mut); m_cv.wait(lock); }
-
+	sf::String getName() { sf::String n; m_packet >> n; return n; }
 	void notify_one() { m_cv.notify_one(); }
 private:
 	Network& m_net;

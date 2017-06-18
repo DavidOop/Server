@@ -53,6 +53,8 @@ public:
 	void receiveLoop(std::queue<recPack>&);
 	void precessLoop(std::queue<recPack>&);
 
+	void addClient(Board&, sf::Uint32);
+
 private:
 	un_map m_data;
 	Network& m_network;
@@ -65,4 +67,3 @@ private:
 	unsigned m_numOfFood, m_numOfBombs;
 };
 //=================================================================
-void addClient(Board&, sf::Uint32);

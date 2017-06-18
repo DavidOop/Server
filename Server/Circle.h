@@ -22,7 +22,7 @@ protected:
 //================================================================================
 class Player :public Circle {
 public:
-	Player(sf::Uint32 id, sf::Uint32 im, const sf::Vector2f& ver,sf::String name ,float r = PLAYER_RADIUS) :Circle(id, ver, r), _image(im) {}
+	Player(sf::Uint32 id, sf::Uint32 im, const sf::Vector2f& ver,sf::String name ,float r = PLAYER_RADIUS) :Circle(id, ver, r), _image(im),_name(name) {}
 	Player(const Player& pl) :Player(pl._id, pl._image, pl._vertex, pl._name, pl._radius) {}
 	~Player() {}
 
