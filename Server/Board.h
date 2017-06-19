@@ -53,7 +53,7 @@ public:
 	void receiveLoop(std::queue<recPack>&);
 	void precessLoop(std::queue<recPack>&);
 
-	void addClient(Board&, sf::Uint32);
+	void addClient(sf::Uint32);
 
 private:
 	un_map m_data;
