@@ -8,12 +8,6 @@ sf::Packet& operator << (sf::Packet& packet, const sf::Vector2f& v)
 //==================================================================================================================
 sf::Packet& operator << (sf::Packet& packet, const sendPack& p)
 {
-	static int c = 0;
-
-	if (p._id >= 1000 && p._id <= 5000) {
-		std::cout <<c<<" " <<p._id << '\n';
-		c++;
-	}
 	return packet << p._id << p._ver;
 }
 //==================================================================================================================
@@ -39,14 +33,12 @@ void Sender::send() {
 			m_cv.wait(lock);//wait for the Board 
 		}
 		m_packet.clear();
-	//	std::cout << "sender\n";
 		m_packet << (*this);
 
 		// The listener socket is not ready, test all other sockets (the clients)
 		std::unique_lock<std::mutex> lock(m_net.m_mut);
 		for (auto it = m_net.clients.begin(); it != m_net.clients.end(); ++it)
 			(*it)->send(m_packet);
-	//	std::cout << "sender: " << c << '\n';
 	}
 }
 //==============================================================================================================

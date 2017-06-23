@@ -76,8 +76,8 @@ void Board::add(co_Uint MAX, co_Uint UPPER, co_Uint LOWER, const float RADIUS, c
 sf::Vector2f Board::addVertex(float radius) {
 	sf::Vector2f ver;
 	do {
-		ver.x = float(rand() % int(BOARD_SIZE.x) - PLAYER_RADIUS) + PLAYER_RADIUS;
-		ver.y = float(rand() % int(BOARD_SIZE.y) - PLAYER_RADIUS) + PLAYER_RADIUS;
+		ver.x = float(rand() % int(BOARD_SIZE.x) - PLAYER_RADIUS*2) + PLAYER_RADIUS;
+		ver.y = float(rand() % int(BOARD_SIZE.y) - PLAYER_RADIUS*2) + PLAYER_RADIUS;
 	} while (!collide(ver, radius));
 	return ver;
 }
@@ -143,6 +143,7 @@ void Board::addClient(sf::Uint32 image) {
 	sf::Packet packet;
 	auto id = findId(PLAYER_LOWER, PLAYER_UPPER); //make new id
 	auto ver = addVertex(PLAYER_RADIUS);
+	std::cout << ver.x << " " << ver.y << '\n';
 	sf::String name = m_receive.getName();
 	/*send the board*/
 	for (auto it = begin(); it != end(); ++it) {
