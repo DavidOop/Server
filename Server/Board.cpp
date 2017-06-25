@@ -78,7 +78,7 @@ sf::Vector2f Board::addVertex(float radius) {
 	do {
 		ver.x = float(rand() % int(BOARD_SIZE.x) - PLAYER_RADIUS*2) + PLAYER_RADIUS;
 		ver.y = float(rand() % int(BOARD_SIZE.y) - PLAYER_RADIUS*2) + PLAYER_RADIUS;
-	} while (!collide(ver, radius));
+	} while (!collide(ver+ sf::Vector2f{ PLAYER_RADIUS ,PLAYER_RADIUS }, radius));
 	return ver;
 }
 //=============================================================================================================
