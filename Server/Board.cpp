@@ -19,8 +19,8 @@ sf::Packet& operator << (sf::Packet& packet, const std::pair<const sf::Uint32, s
 
 //===========================================================================================
 
-Board::Board(Network& net, Receive& rec, Sender& send/*, Computer& c1*/)
-	:m_network(net), m_receive(rec), m_sender(send),/* m_Cplayer(c1),*/ m_numOfFood(0), m_numOfBombs(0)
+Board::Board(Network& net, Receive& rec, Sender& send)
+	:m_network(net), m_receive(rec), m_sender(send), m_numOfFood(0), m_numOfBombs(0)
 {
 
 	add(FOOD, FOOD_UPPER, FOOD_LOWER, FOOD_RADIUS, FOOD, m_numOfFood);
@@ -76,9 +76,9 @@ void Board::add(co_Uint MAX, co_Uint UPPER, co_Uint LOWER, const float RADIUS, c
 sf::Vector2f Board::addVertex(float radius) {
 	sf::Vector2f ver;
 	do {
-		ver.x = float(rand() % int(BOARD_SIZE.x) - PLAYER_RADIUS*2) + PLAYER_RADIUS;
-		ver.y = float(rand() % int(BOARD_SIZE.y) - PLAYER_RADIUS*2) + PLAYER_RADIUS;
-	} while (!collide(ver+ sf::Vector2f{ PLAYER_RADIUS ,PLAYER_RADIUS }, radius));
+		ver.x = float(rand() % int(BOARD_SIZE.x) - PLAYER_RADIUS * 2) + PLAYER_RADIUS;
+		ver.y = float(rand() % int(BOARD_SIZE.y) - PLAYER_RADIUS * 2) + PLAYER_RADIUS;
+	} while (!collide(ver + sf::Vector2f{ PLAYER_RADIUS ,PLAYER_RADIUS }, radius));
 	return ver;
 }
 //=============================================================================================================
@@ -113,7 +113,7 @@ void Board::precessLoop(std::queue<recPack>& temp) {
 	while (!temp.empty()) {
 		auto player = temp.front()._id;
 		if (player < MAX_IMAGE)
-			addClient(player);//a = std::thread(addClient, *this);			std::Ref(*this)
+			addClient(player);
 		else {
 			if (find(player) == end())
 				continue;
@@ -143,7 +143,6 @@ void Board::addClient(sf::Uint32 image) {
 	sf::Packet packet;
 	auto id = findId(PLAYER_LOWER, PLAYER_UPPER); //make new id
 	auto ver = addVertex(PLAYER_RADIUS);
-	std::cout << ver.x << " " << ver.y << '\n';
 	sf::String name = m_receive.getName();
 	/*send the board*/
 	for (auto it = begin(); it != end(); ++it) {

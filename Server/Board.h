@@ -61,9 +61,6 @@ private:
 	Receive& m_receive;
 	Sender& m_sender;
 
-
-	//Computer& m_Cplayer;
-	//std::set<Computer&> m_Cplayer;//{ c1,c2 };
 	unsigned m_numOfFood, m_numOfBombs;
 };
 //=================================================================

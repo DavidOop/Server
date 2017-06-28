@@ -1,4 +1,5 @@
 #include "Controller.h"
+//=========================================================================
 
 void send(Sender& sender) {
 	sender.send();
@@ -14,7 +15,7 @@ void Controller::run() {
 	Network m_network;
 	Receive rec{ m_network };
 	Sender sender{ m_network };
-	Board board{ m_network, rec , sender /*,c1*/ };
+	Board board{ m_network, rec , sender};
 
 	std::thread a([&rec] {receive(rec); });
 	std::thread b([&sender] {send(sender); });

@@ -38,7 +38,6 @@ void Receive::run() {
 	while (true) {
 		// Make the selector wait for data on any socket
 		// The listener is ready: there is a pending connection
-	//	std::cout << "wait\n";
 		if (selector.wait())
 			(selector.isReady(listener)) ? newClient() : receiveData();
 	}
@@ -91,12 +90,8 @@ void Receive::receiveData() {
 			else if (status == sf::Socket::Done)
 			{
 				recPack pack;
-				if (m_packet >> pack) {
+				if (m_packet >> pack)
 					push(pack);
-					static int c = 0;
-				//	std::cout << "recieve: " << c << '\n';
-					c++;
-				}
 			}
 		}
 		if(it!= m_net.clients.end())

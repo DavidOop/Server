@@ -19,11 +19,7 @@ sf::Packet& operator << (sf::Packet& packet, Sender& que)
 	return packet;
 }
 //==================================================================================================================
-Sender::Sender(Network& net) :m_net(net)
-{
-
-}
-
+Sender::Sender(Network& net) :m_net(net) {}
 
 //=====================================================================================
 void Sender::send() {
